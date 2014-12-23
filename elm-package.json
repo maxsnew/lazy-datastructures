@@ -1,0 +1,14 @@
+{
+    "version": "1.0.0",
+    "summary": "Infinite/Cyclical Data Structures, exploiting laziness",
+    "repository": "https://github.com/maxsnew/lazy-datastructures.git",
+    "license": "BSD3",
+    "source-directories": [
+        "."
+    ],
+    "exposed-modules": ["Lazy.List"],
+    "dependencies": {
+        "elm-lang/core": "1.0.0 <= v < 2.0.0",
+        "maxsnew/lazy" : "1.0.0 <= v < 2.0.0"
+    }
+}
