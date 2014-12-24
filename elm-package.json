@@ -6,7 +6,7 @@
     "source-directories": [
         "."
     ],
-    "exposed-modules": ["Lazy.List"],
+    "exposed-modules": ["Lazy.List", "Lazy.Memoize"],
     "dependencies": {
         "elm-lang/core": "1.0.0 <= v < 2.0.0",
         "maxsnew/lazy" : "1.0.0 <= v < 2.0.0"
