@@ -97,7 +97,7 @@ sort l = l `L.andThen`
          \xs -> case xs of
                   Nil -> nil
                   Cons x xs ->
-                      sort (filter ((<) x) xs) `append` (cons x nil) `append` sort (filter ((>=) x) xs)
+                      sort (filter ((>=) x) xs) `append` (cons x nil) `append` sort (filter ((<) x) xs)
 
 --fromList : List a -> LList a
 fromList = List.foldr cons nil
