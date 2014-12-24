@@ -1,11 +1,10 @@
 module Lazy.List where
 
-import Basics    
 import Lazy (Lazy)
 import Lazy as L
 import List ((::))
 import List
-import Trampoline as T        
+import Trampoline as T
 
 type List a = Nil
             | Cons a (Lazy (List a))
@@ -15,7 +14,13 @@ cons : a -> Lazy (List a) -> Lazy (List a)
 cons x xs = L.lazy (\_ -> Cons x xs)
 
 nil : Lazy (List a)
-nil = L.lazy (\_ -> Nil)             
+nil = L.lazy (\_ -> Nil)
+
+uncons : LList a -> Lazy (Maybe (a, LList a))
+uncons l = flip L.map l <| \xs ->
+           case xs of
+             Nil       -> Nothing
+             Cons x xs -> Just (x, xs)
 
 foldr : (a -> Lazy b -> Lazy b) -> Lazy b -> LList a -> Lazy b
 foldr f def l =
@@ -32,7 +37,7 @@ foldl f def l =
                                  Nil       -> T.Done acc
                                  Cons x xs -> loop (fuel - 1) (f x acc) xs
     in T.trampoline (loop defFuel def l)
-                       
+
 map : (a -> b) -> LList a -> LList b
 map f = foldr (\x xs -> cons (f x) xs) nil
 
@@ -86,5 +91,15 @@ approximate n l = case n of
                     _ -> case L.force l of
                            Nil -> []
                            Cons x xs -> x :: (approximate (n - 1) xs)
-                           
+
+sort : LList comparable -> LList comparable
+sort l = l `L.andThen`
+         \xs -> case xs of
+                  Nil -> nil
+                  Cons x xs ->
+                      sort (filter ((<) x) xs) `append` (cons x nil) `append` sort (filter ((>=) x) xs)
+
+--fromList : List a -> LList a
+fromList = List.foldr cons nil
+
 defFuel = 50
