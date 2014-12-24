@@ -9,4 +9,3 @@ Lazy Lists
 `Lazy.List.LList` is a `Lazy (Lazy.List.List)`.
 
 Since the tail of the list is lazily evaluated, you can make circular/infinite lists.
-
